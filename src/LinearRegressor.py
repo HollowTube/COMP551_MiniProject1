@@ -1,13 +1,13 @@
 import numpy as np
-import math
 
 
 def gradient(x_train, y_train, weight):
     x_train_transpose = np.transpose(x_train)
     A = x_train_transpose @ x_train @ weight
     B = x_train_transpose @ y_train
-    C = A-B
+    C = A - B
     return 2 * C
+
 
 def add_bias(matrix):
     num_rows = matrix.shape[0]
@@ -41,10 +41,10 @@ class LinearRegressor:
         weight = np.ones(x_train.shape[1]).reshape(x_train.shape[1], 1)
         count = 1
         while True:
-            alpha = 1 / (100*count+1000)  # learning rate
+            alpha = 1 / (10000 * count + 1000000)  # learning rate
             prev_weight = weight
-            gradient_value = gradient(x_train, y_train, weight)
-            weight = weight - (alpha * gradient_value)
+            gradient_value = alpha* gradient(x_train, y_train, weight)
+            weight = weight -  gradient_value
             count += 1
             if self.large_steps(prev_weight, weight):
                 self.weights = weight
