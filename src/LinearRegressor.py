@@ -25,7 +25,7 @@ def add_bias(matrix):
 class LinearRegressor:
     def __init__(self):
         self.weights = np.ones(1)
-        self.epsilon = 0.1
+        self.epsilon = 0.01
 
     """ MAKE SURE THAT THE X_TRAIN IS OF THE FORM M X N WHERE M IS THE NUMBER OF ROWS"""
 
@@ -41,10 +41,10 @@ class LinearRegressor:
         weight = np.ones(x_train.shape[1]).reshape(x_train.shape[1], 1)
         count = 1
         while True:
-            alpha = 1 / (10000 * count + 1000000)  # learning rate
+            alpha = 1 / ((1000 * count**2) + 10000)  # learning rate
             prev_weight = weight
-            gradient_value = alpha* gradient(x_train, y_train, weight)
-            weight = weight -  gradient_value
+            gradient_value = alpha * gradient(x_train, y_train, weight)
+            weight = weight - gradient_value
             count += 1
             if self.large_steps(prev_weight, weight):
                 self.weights = weight
@@ -57,5 +57,4 @@ class LinearRegressor:
 
     def large_steps(self, prev_weight, new_weight):
         difference = new_weight - prev_weight
-
         return abs(np.linalg.norm(difference)) < self.epsilon
