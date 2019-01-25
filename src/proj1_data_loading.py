@@ -12,8 +12,8 @@ with open("proj1_data.json") as fp:
 # is_root : if True, then this comment is a direct reply to a post; if False, this is a direct reply to another comment 
 
 # Example:
-data_point = data[0] # select the first data point in the dataset
-
+data_point = data[0] # select the first data point in the datasetprint
+print(data_point)
 # Now we print all the information about this datapoint
 for info_name, info_value in data_point.items():
     print(info_name + " : " + str(info_value))
