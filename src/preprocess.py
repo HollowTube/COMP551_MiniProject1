@@ -1,6 +1,7 @@
 import heapq
 import numpy as np
 
+
 class Preprocess:
     @staticmethod
     def preprocess(data):
@@ -12,11 +13,11 @@ class Preprocess:
                 data_point['is_root'] = 0
 
     @staticmethod
-    def matrixify( data):
+    def matrixify(data):
         h = {}
         for data_point in data:
             for word in data_point['text']:
-                if (word not in h):
+                if word not in h:
                     h[word] = 1
                 else:
                     h[word] += 1
@@ -27,7 +28,7 @@ class Preprocess:
             row_vector = [0] * 160
             for word in data_point['text']:
                 for i in range(len(frequent_words)):
-                    if (frequent_words[i] == word):
+                    if frequent_words[i] == word:
                         row_vector[i] += 1
             row_vector.append(data_point['is_root'])
             row_vector.append(data_point['controversiality'])

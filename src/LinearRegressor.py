@@ -1,5 +1,7 @@
 import numpy as np
 
+"""Simple Gradient calculator"""
+
 
 def gradient(x_train, y_train, weight):
     x_train_transpose = np.transpose(x_train)
@@ -12,20 +14,27 @@ def gradient(x_train, y_train, weight):
 def add_bias(matrix):
     num_rows = matrix.shape[0]
 
+    """Checking the shape of matrix"""
     if len(matrix.shape) == 1:
         num_columns = 1
     else:
         num_columns = matrix.shape[1]
 
-    ones = np.ones((num_rows, num_columns + 1))
-    ones[:, : -1] = matrix
-    return ones
+    out = np.ones((num_rows, num_columns + 1))
+    out[:, : -1] = matrix
+    return out
+
 
 
 class LinearRegressor:
+
+    def learning_rate(self,step):
+        return
+
     def __init__(self):
         self.weights = np.ones(1)
         self.epsilon = 0.01
+        self.initial_rate = 1/10000
 
     """ MAKE SURE THAT THE X_TRAIN IS OF THE FORM M X N WHERE M IS THE NUMBER OF ROWS"""
 
@@ -41,7 +50,7 @@ class LinearRegressor:
         weight = np.ones(x_train.shape[1]).reshape(x_train.shape[1], 1)
         count = 1
         while True:
-            alpha = 1 / ((1000 * count**2) + 10000)  # learning rate
+            alpha = 1 / ((1000 * count ** 2) + 10000)  # learning rate
             prev_weight = weight
             gradient_value = alpha * gradient(x_train, y_train, weight)
             weight = weight - gradient_value

@@ -8,13 +8,14 @@ with open("proj1_data.json") as fp:
 
 class TestMatrixify(TestCase):
     def setUp(self):
-        self.data = data
+        self.data = data[:10]
 
     def test_matrixify(self):
         preprocessor = Preprocess()
+        print(self.data)
         preprocessor.preprocess(self.data)
         x_set = preprocessor.matrixify(self.data)
-        self.assertEqual(163, x_set.shape[0])
+        self.assertEqual(163, x_set.shape[1])
 
     def test_preprocess(self):
         preprocessor = Preprocess()
