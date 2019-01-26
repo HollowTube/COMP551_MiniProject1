@@ -25,16 +25,16 @@ def add_bias(matrix):
     return out
 
 
-
 class LinearRegressor:
 
-    def learning_rate(self,step):
-        return
+    def learning_rate(self, step):
+        return self.initial_rate / (1 + self.beta * step)
 
     def __init__(self):
         self.weights = np.ones(1)
-        self.epsilon = 0.01
-        self.initial_rate = 1/10000
+        self.epsilon = 0.00001
+        self.initial_rate = 1 / 10000000
+        self.beta = 0.0001
 
     """ MAKE SURE THAT THE X_TRAIN IS OF THE FORM M X N WHERE M IS THE NUMBER OF ROWS"""
 
@@ -47,10 +47,10 @@ class LinearRegressor:
 
     def fit_gradient_descent(self, x_train, y_train):
         x_train = add_bias(x_train)
-        weight = np.ones(x_train.shape[1]).reshape(x_train.shape[1], 1)
+        weight = np.zeros(x_train.shape[1]).reshape(x_train.shape[1], 1)
         count = 1
         while True:
-            alpha = 1 / ((1000 * count ** 2) + 10000)  # learning rate
+            alpha = self.learning_rate(count)  # learning rate
             prev_weight = weight
             gradient_value = alpha * gradient(x_train, y_train, weight)
             weight = weight - gradient_value
