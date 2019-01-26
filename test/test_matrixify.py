@@ -19,10 +19,12 @@ class TestMatrixify(TestCase):
         x_set = preprocessor.matrixify(self.data)
         x_train, x_test = Preprocess.split(x_set, num_splits)
         self.assertEqual(x_test.shape[0], self.expected_split(num_splits))
+
         self.assertEqual(x_train.shape[0], self.test_size - (self.expected_split(num_splits)))
 
     def expected_split(self, num_splits):
         return self.test_size // num_splits + self.test_size % num_splits
+
     def test_matrixify(self):
         preprocessor = Preprocess()
         print(self.data)
@@ -42,8 +44,16 @@ class TestMatrixify(TestCase):
                 except AssertionError:
                     print(word)
 
-
-
-
-
+    def test_add_features(self):
+        preprocessor = Preprocess()
+        preprocessor.preprocess(self.data)
+        preprocessor.matrixify(self.data)
+        new_feature = []
+        other_feature = []
+        for some_feature in self.data:
+            new_feature.append(5)
+        for some_other_feature in self.data:
+            other_feature.append(3)
+        preprocessor.add_features(new_feature)
+        preprocessor.add_features(other_feature)
 

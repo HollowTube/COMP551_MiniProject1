@@ -3,6 +3,19 @@ import numpy as np
 
 
 class Preprocess:
+
+    def __init__(self):
+        self.extra_features = None
+        self.feature_set = None
+
+    def add_features(self, features):
+        length = len(features)
+        feature_arr = np.array(features).reshape((length, 1))
+        if self.feature_set is not None:
+            self.feature_set = np.hstack((self.feature_set, feature_arr))
+        else:
+            self.feature_set = feature_arr
+
     @staticmethod
     def split(data, num_splits, one_out=0):
 
@@ -25,6 +38,7 @@ class Preprocess:
         x_train = np.delete(splits, one_out, 0)
         x_train = x_train.reshape(x_train.shape[0] * x_train.shape[1], x_train.shape[2])
         return x_train, x_test
+
     @staticmethod
     def preprocess(data):
         for data_point in data:
@@ -34,8 +48,7 @@ class Preprocess:
             else:
                 data_point['is_root'] = 0
 
-    @staticmethod
-    def matrixify(data):
+    def matrixify(self, data):
         h = {}
         for data_point in data:
             for word in data_point['text']:
@@ -56,4 +69,5 @@ class Preprocess:
             row_vector.append(data_point['controversiality'])
             row_vector.append(data_point['children'])
             x.append(row_vector)
+        self.feature_set = np.array(x)
         return np.array(x)

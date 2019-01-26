@@ -11,7 +11,6 @@ class Evaluator:
             diff = np.linalg.norm(y_p - y_a)
             error_sum += diff ** 2
         return error_sum / y_pred.shape[0]
-        pass
 
     def cross_validator(self):
         pass
