@@ -27,7 +27,6 @@ class TestMatrixify(TestCase):
 
     def test_matrixify(self):
         preprocessor = Preprocess()
-        print(self.data)
         preprocessor.preprocess(self.data)
         x_set = preprocessor.matrixify(self.data)
         self.assertEqual(163, x_set.shape[1])
@@ -44,16 +43,27 @@ class TestMatrixify(TestCase):
                 except AssertionError:
                     print(word)
 
+    def test_remove_alpha(self):
+        preprocessor = Preprocess()
+        preprocessor.preprocess_remove_non_alpha(self.data)
+        for point in self.data:
+            for word in point['text']:
+                try:
+                    self.assertTrue(word.isalpha())
+                except AssertionError:
+                    print(word)
+
     def test_add_features(self):
         preprocessor = Preprocess()
         preprocessor.preprocess(self.data)
-        preprocessor.matrixify(self.data)
+        x_set = preprocessor.matrixify(self.data)
         new_feature = []
         other_feature = []
         for some_feature in self.data:
             new_feature.append(5)
         for some_other_feature in self.data:
             other_feature.append(3)
-        preprocessor.add_features(new_feature)
-        preprocessor.add_features(other_feature)
+        x_set = preprocessor.add_features(new_feature)
+        x_set = preprocessor.add_features(other_feature)
+        self.assertEqual(x_set.shape,(self.test_size, 165))
 

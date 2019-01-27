@@ -1,5 +1,7 @@
 import heapq
 import numpy as np
+import re
+
 
 
 class Preprocess:
@@ -15,6 +17,7 @@ class Preprocess:
             self.feature_set = np.hstack((self.feature_set, feature_arr))
         else:
             self.feature_set = feature_arr
+        return self.feature_set
 
     @staticmethod
     def split(data, num_splits, one_out=0):
@@ -42,11 +45,22 @@ class Preprocess:
     @staticmethod
     def preprocess(data):
         for data_point in data:
+            data_point['text'] = re.sub(r'\W+', '', data_point['text'].lower().split())
+            if data_point['is_root']:
+                data_point['is_root'] = 1
+            else:
+                data_point['is_root'] = 0
+
+    @staticmethod
+    def preprocess_remove_non_alpha(data):
+        for data_point in data:
             data_point['text'] = data_point['text'].lower().split()
             if data_point['is_root']:
                 data_point['is_root'] = 1
             else:
                 data_point['is_root'] = 0
+
+        pass
 
     def matrixify(self, data):
         h = {}
@@ -71,3 +85,17 @@ class Preprocess:
             x.append(row_vector)
         self.feature_set = np.array(x)
         return np.array(x)
+
+    @staticmethod
+    def get_y(data):
+        y_list = []
+        for data_point in data:
+            y_list.append(data_point['popularity_score'])
+        return np.array(y_list).reshape((len(data), 1))
+
+    # @staticmethod
+    # def make_set(data):
+    #     y_arr = Preprocess.get_y(data)
+    #     preprocessor = Preprocess()
+    #     preprocessor.preprocess(data)
+    #     preprocessor.matrixify()
