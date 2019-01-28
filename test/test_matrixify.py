@@ -43,7 +43,7 @@ class TestMatrixify(TestCase):
                 except AssertionError:
                     print(word)
 
-    def test_remove_alpha(self):
+    def test_remove_non_alpha(self):
         preprocessor = Preprocess()
         preprocessor.preprocess_remove_non_alpha(self.data)
         for point in self.data:

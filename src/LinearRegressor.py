@@ -72,8 +72,6 @@ class LinearRegressor:
     def learning_rate(self, step):
         return self.initial_rate / (1 + self.beta * step)
 
-
-
     def large_steps(self, prev_weight, new_weight):
         difference = new_weight - prev_weight
         return abs(np.linalg.norm(difference)) < self.epsilon

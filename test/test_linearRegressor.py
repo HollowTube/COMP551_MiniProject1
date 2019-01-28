@@ -71,7 +71,6 @@ class TestLinearRegressor(TestCase):
         y_pred = regressor.predict(self.x_train)
         print(Evaluator.mean_square_error(y_pred, self.y_train))
 
-
         plt.scatter(self.x_base, self.y_train, color='blue')
         plt.plot(self.x_base, y_pred, color ='red')
         plt.show()
