@@ -62,19 +62,21 @@ class Preprocess:
 
         pass
 
-    def matrixify(self, data):
+    def matrixify(self, data, wordCount=0):
+        """ Specify wordNumber for the number of most frequent words, ie 0, 60 or 160. """
         h = {}
-        for data_point in data:
-            for word in data_point['text']:
-                if word not in h:
-                    h[word] = 1
-                else:
-                    h[word] += 1
+        if wordCount > 0:
+            for data_point in data:
+                for word in data_point['text']:
+                    if word not in h:
+                        h[word] = 1
+                    else:
+                        h[word] += 1
 
-        frequent_words = heapq.nlargest(160, h, key=h.get)
+        frequent_words = heapq.nlargest(wordCount, h, key=h.get)
         x = []
         for data_point in data:
-            row_vector = [0] * 160
+            row_vector = [0] * wordCount
             for word in data_point['text']:
                 for i in range(len(frequent_words)):
                     if frequent_words[i] == word:
