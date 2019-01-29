@@ -2,6 +2,20 @@ import heapq
 import numpy as np
 import re
 
+def add_bias(matrix):
+    num_rows = matrix.shape[0]
+
+    """Checking the shape of matrix"""
+    if len(matrix.shape) == 1:
+        num_columns = 1
+    else:
+        num_columns = matrix.shape[1]
+
+    out = np.ones((num_rows, num_columns + 1))
+    out[:, : -1] = matrix
+    return out
+
+
 
 class Preprocess:
 

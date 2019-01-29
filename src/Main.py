@@ -5,6 +5,7 @@ from LinearRegressor import LinearRegressor
 import numpy as np
 import json
 import math
+import statsmodels.formula.api as sm
 
 with open("../src/proj1_data.json") as fp:
     data = json.load(fp)
@@ -37,6 +38,20 @@ class Main():
         y_set = Preprocess.get_y(self.data)
         return self.run_model(x_set, y_set)
 
+    @staticmethod
+    def backwardElimination(x, y, sl):
+        numVars = len(x[0])
+        regressor_OLS = None
+        for i in range(0, numVars):
+            regressor_OLS = sm.OLS(y, x).fit()
+            maxVar = max(regressor_OLS.pvalues).astype(float)
+            if maxVar > sl:
+                for j in range(0, numVars - i):
+                    if regressor_OLS.pvalues[j].astype(float) == maxVar:
+                        x = np.delete(x, j, 1)
+        print(regressor_OLS.summary())
+        return x
+
     def closed_form_extra_features(self):
         preprocess1 = Preprocess()
 
@@ -63,6 +78,7 @@ class Main():
         for length, children in zip(lengths, children_list):
             children_length_inter_log.append(math.log(length, 2) * children)
         x_set = preprocess1.add_features(children_length_inter)
+        # x_set = self.backwardElimination(x_set,y_set,0.1)
         return self.run_model(x_set, y_set)
 
     @staticmethod
