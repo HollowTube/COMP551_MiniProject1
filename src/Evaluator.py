@@ -25,7 +25,7 @@ class Evaluator:
         regressor.fit_gradient_descent(x_train, y_train)
         end = timer()
         time_taken = end - start
-
+        
         y_pred = regressor.predict(x_train)
         mse = Evaluator.mean_square_error(y_pred, y_train)
         return time_taken, mse

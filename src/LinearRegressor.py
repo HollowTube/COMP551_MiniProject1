@@ -1,10 +1,5 @@
 import numpy as np
 
-"""Simple Gradient calculator"""
-
-
-
-
 
 def add_bias(matrix):
     num_rows = matrix.shape[0]
@@ -29,9 +24,6 @@ class LinearRegressor:
 
         self.A = None
         self.B = None
-
-
-    """ MAKE SURE THAT THE X_TRAIN IS OF THE FORM M X N WHERE M IS THE NUMBER OF ROWS"""
 
     def fit(self, x_train, y_train):
         x_train = add_bias(x_train)
@@ -65,8 +57,8 @@ class LinearRegressor:
     def gradient(self, x_train, y_train, weight):
         if self.A is None or self.B is None:
             x_train_transpose = np.transpose(x_train)
-            self.A = 2*(x_train_transpose @ x_train)
-            self.B = 2*(x_train_transpose @ y_train)
+            self.A = 2 * (x_train_transpose @ x_train)
+            self.B = 2 * (x_train_transpose @ y_train)
         return self.A @ weight - self.B
 
     def learning_rate(self, step):

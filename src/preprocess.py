@@ -3,7 +3,6 @@ import numpy as np
 import re
 
 
-
 class Preprocess:
 
     def __init__(self):
@@ -46,7 +45,7 @@ class Preprocess:
     @staticmethod
     def preprocess(data):
         for data_point in data:
-            data_point['text'] =  data_point['text'].lower().split()
+            data_point['text'] = data_point['text'].lower().split()
             if data_point['is_root']:
                 data_point['is_root'] = 1
             else:
@@ -61,8 +60,6 @@ class Preprocess:
                 data_point['is_root'] = 1
             else:
                 data_point['is_root'] = 0
-
-        pass
 
     def matrixify(self, data, wordCount=0):
         """ Specify wordNumber for the number of most frequent words, ie 0, 60 or 160. """
@@ -86,11 +83,10 @@ class Preprocess:
             row_vector.append(data_point['is_root'])
             row_vector.append(data_point['controversiality'])
             row_vector.append(data_point['children'])
+            row_vector.append(data_point['children'] * data_point['is_root'])
             x.append(row_vector)
         self.feature_set = np.array(x)
         return np.array(x)
-
-
 
     @staticmethod
     def get_y(data):
