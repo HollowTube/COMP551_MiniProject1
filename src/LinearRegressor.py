@@ -17,8 +17,8 @@ def add_bias(matrix):
 
 class LinearRegressor:
     def __init__(self):
-        self.weights = np.ones(1)
-        self.epsilon = 0.001
+        self.weights = None
+        self.epsilon = 0.00001
         self.initial_rate = 1 / 10000000
         self.beta = 0.0001
 

@@ -15,10 +15,7 @@ def add_bias(matrix):
     out[:, : -1] = matrix
     return out
 
-
-
 class Preprocess:
-
     def __init__(self):
         self.extra_features = None
         self.feature_set = None
@@ -32,29 +29,6 @@ class Preprocess:
         else:
             self.feature_set = feature_arr
         return self.feature_set
-
-    @staticmethod
-    def split(data, num_splits, one_out=0):
-
-        """ Makes it possible to divide the data set evenly, the remainder is added to the test set"""
-        length = data.shape[0]
-        remainder = length % num_splits
-        if remainder != 0:
-            divisible_data = data[:-remainder]
-            remainder_data = data[-remainder:]
-        else:
-            divisible_data = data
-            remainder_data = None
-
-        splits = np.split(divisible_data, num_splits)
-
-        x_test = splits[one_out]
-        if remainder_data is not None:
-            x_test = np.vstack((x_test, remainder_data))
-
-        x_train = np.delete(splits, one_out, 0)
-        x_train = x_train.reshape(x_train.shape[0] * x_train.shape[1], x_train.shape[2])
-        return x_train, x_test
 
     @staticmethod
     def preprocess(data):
@@ -74,6 +48,19 @@ class Preprocess:
                 data_point['is_root'] = 1
             else:
                 data_point['is_root'] = 0
+
+    def add_base_features(self,data):
+        x = []
+        for data_point in data:
+            row_vector = [data_point['is_root'], data_point['controversiality'], data_point['children'],
+                          data_point['children'] * data_point['is_root']]
+            x.append(row_vector)
+        x = np.array(x)
+
+        if self.feature_set is not None:
+            self.feature_set = np.hstack((self.feature_set,x))
+        else:
+            self.feature_set = x
 
     def matrixify(self, data, wordCount=0):
         """ Specify wordNumber for the number of most frequent words, ie 0, 60 or 160. """

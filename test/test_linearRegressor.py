@@ -49,7 +49,7 @@ class TestLinearRegressor(TestCase):
 
         for rate in initial_rate:
             print("running with rate " + str(rate))
-            result = Evaluator.hyperparameter_tester(self.x_train, self.y_train, initial_rate=rate, )
+            result = Evaluator.gradient_evaluator(self.x_train, self.y_train, initial_rate=rate, )
             time_list.append(result[0])
             error_list.append(result[1])
 

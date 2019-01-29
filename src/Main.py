@@ -55,11 +55,10 @@ class Main():
     def closed_form_extra_features(self):
         preprocess1 = Preprocess()
 
-        x_set = preprocess1.matrixify(self.data,60)
+        x_set = preprocess1.matrixify(self.data, 60)
         y_set = Preprocess.get_y(self.data)
         lengths = []
         length_squared = []
-
 
         for datapoint in self.data:
             text_length = len(datapoint['text'])
@@ -78,7 +77,7 @@ class Main():
         for length, children in zip(lengths, children_list):
             children_length_inter_log.append(math.log(length, 2) * children)
         x_set = preprocess1.add_features(children_length_inter)
-        # x_set = self.backwardElimination(x_set,y_set,0.1)
+        x_set = self.backwardElimination(x_set, y_set, 0.5)
         return self.run_model(x_set, y_set)
 
     @staticmethod
