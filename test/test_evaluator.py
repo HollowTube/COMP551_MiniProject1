@@ -34,7 +34,3 @@ class TestEvaluator(TestCase):
         y_pred = regressor.predict(self.x_val)
         mse = Evaluator.mean_square_error(y_pred, self.y_val)
         print(mse)
-
-
-    def test_cross_validator(self):
-        self.fail()

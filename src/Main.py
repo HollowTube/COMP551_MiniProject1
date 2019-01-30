@@ -92,9 +92,9 @@ class Main():
         mse_val = Evaluator.mean_square_error(y_pred, y_val)
         mse_test = Evaluator.mean_square_error(test_y_pred, y_test)
 
-        # print("validation: " + str(mse_val))
-        # print("train: " + str(mse_train))
-        # print("Test: " + str(mse_test))
+        print("validation: " + str(mse_val))
+        print("train: " + str(mse_train))
+        #print("Test: " + str(mse_test))
         return mse_val, mse_train
 
     def display_training_and_validation_error(self):
@@ -122,6 +122,9 @@ class Main():
 
 
 if __name__ == "__main__":
-    # Main().closed_form_model_full_160()
+    #Main().closed_form_model_full_160()
+    # Main().closed_form_top_60()
     main = Main()
-    main.display_training_and_validation_error()
+    main.closed_form_model_variable(0)
+    # main = Main()
+    # main.display_training_and_validation_error()

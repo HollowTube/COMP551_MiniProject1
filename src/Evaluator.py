@@ -14,7 +14,7 @@ class Evaluator:
         return error_sum / y_pred.shape[0]
 
     @staticmethod
-    def gradient_evaluator(x_set, y_set, initial_rate=None, beta=None):
+    def gradient_evaluator(x_set, y_set, initial_rate=None, beta=None, epsilon = None):
 
         # splitting the training and validation set
         x_train = x_set[:10000]
@@ -28,6 +28,8 @@ class Evaluator:
             regressor.initial_rate = initial_rate
         if beta is not None:
             regressor.beta = beta
+        if epsilon is not None:
+            regressor.epsilon = epsilon
 
         start = timer()
         regressor.fit_gradient_descent(x_train, y_train)
