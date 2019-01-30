@@ -16,20 +16,3 @@ def backwardElimination(x,y, sl):
                     x = np.delete(x, j, 1)
     print(regressor_OLS.summary())
     return x
-
-
-with open("../src/proj1_data.json") as fp:
-    data = json.load(fp)
-    Preprocess.preprocess(data)
-
-preprocess1 = Preprocess()
-X = preprocess1.matrixify(data, 60)
-y = Preprocess.get_y(data)
-
-SL = 0.1
-X_opt = X
-X_Modeled = backwardElimination(X_opt, y, SL)
-
-regressor_OLS = sm.OLS(endog=y, exog=X_Modeled).fit()
-
-print(regressor_OLS.summary())

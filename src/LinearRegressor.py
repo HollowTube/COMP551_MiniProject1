@@ -25,6 +25,20 @@ class LinearRegressor:
         self.A = None
         self.B = None
 
+    @staticmethod
+    def add_bias(matrix):
+        num_rows = matrix.shape[0]
+
+        """Checking the shape of matrix"""
+        if len(matrix.shape) == 1:
+            num_columns = 1
+        else:
+            num_columns = matrix.shape[1]
+
+        out = np.ones((num_rows, num_columns + 1))
+        out[:, : -1] = matrix
+        return out
+
     def fit(self, x_train, y_train):
         x_train = add_bias(x_train)
         x_train_transpose = np.transpose(x_train)

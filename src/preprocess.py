@@ -77,14 +77,15 @@ class Preprocess:
         x = []
         for data_point in data:
             row_vector = [0] * wordCount
+
+            row_vector.append(data_point['is_root'])
+            row_vector.append(data_point['controversiality'])
+            row_vector.append(data_point['children'])
             for word in data_point['text']:
                 for i in range(len(self.frequent_words)):
                     if self.frequent_words[i] == word:
                         row_vector[i] += 1
-            row_vector.append(data_point['is_root'])
-            row_vector.append(data_point['controversiality'])
-            row_vector.append(data_point['children'])
-            row_vector.append(data_point['children'] * data_point['is_root'])
+            #row_vector.append(data_point['children'] * data_point['is_root'])
             x.append(row_vector)
         self.feature_set = np.array(x)
         return np.array(x)
