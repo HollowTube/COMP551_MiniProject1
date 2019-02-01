@@ -36,6 +36,8 @@ class Evaluator:
         end = timer()
         time_taken = end - start
 
+
+
         # Predicting  and evaluating on the validation set
         y_pred = regressor.predict(x_val)
         mse = Evaluator.mean_square_error(y_pred, y_val)
@@ -51,6 +53,9 @@ class Evaluator:
         x_val = x_set[10000:11000]
         y_val = y_set[10000:11000]
 
+        x_test = x_set[11000:12000]
+        y_test = y_set[11000:12000]
+
         regressor = LinearRegressor()
 
         # Runtime measurement
@@ -61,5 +66,14 @@ class Evaluator:
 
         # Predicting  and evaluating on the validation set
         y_pred = regressor.predict(x_val)
-        mse = Evaluator.mean_square_error(y_pred, y_val)
-        return time_taken, mse
+        train_y_pred = regressor.predict(x_train)
+        test_y_pred = regressor.predict(x_test)
+
+        mse_train = Evaluator.mean_square_error(train_y_pred, y_train)
+        mse_val = Evaluator.mean_square_error(y_pred, y_val)
+        mse_test = Evaluator.mean_square_error(test_y_pred, y_test)
+
+        print("validation: " + str(mse_val))
+        print("train: " + str(mse_train))
+        # print("Test: " + str(mse_test))
+        return time_taken, mse_val

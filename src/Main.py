@@ -5,8 +5,6 @@ from LinearRegressor import LinearRegressor
 import numpy as np
 import json
 import math
-import statsmodels.formula.api as sm
-import feature_selector
 
 with open("../src/proj1_data.json") as fp:
     data = json.load(fp)
@@ -54,6 +52,7 @@ class Main():
         children_length_inter = []
         children_list = []
         log_children_list = []
+
         for datapoint in self.data:
             children_list.append(datapoint['children'])
             if datapoint['children'] != 0:
@@ -64,11 +63,10 @@ class Main():
         for length, children in zip(lengths, children_list):
             children_length_inter.append(length * children)
 
-        preprocess1.add_features(children_length_inter)
-        x_set = preprocess1.add_features(log_children_list)
-        x_set = feature_selector.backwardElimination(x_set, y_set, 0.1)
+        # preprocess1.add_features(children_length_inter)
+        # x_set = preprocess1.add_features(log_children_list)
+        # x_set = feature_selector.backwardElimination(x_set, y_set, 0.5)
         return self.run_model(x_set, y_set)
-
 
     @staticmethod
     def run_model(x_set, y_set):
@@ -92,13 +90,10 @@ class Main():
         mse_val = Evaluator.mean_square_error(y_pred, y_val)
         mse_test = Evaluator.mean_square_error(test_y_pred, y_test)
 
-        print("validation: " + str(mse_val))
-        print("train: " + str(mse_train))
-        #print("Test: " + str(mse_test))
         return mse_val, mse_train
 
     def display_training_and_validation_error(self):
-        num_words = 160
+        num_words = 200
         word_nums = np.arange(num_words)
         val_error_list = []
         train_error_list = []
@@ -106,25 +101,23 @@ class Main():
         x_set = preprocess1.matrixify(self.data, num_words)
         y_set = Preprocess.get_y(self.data)
         for x in word_nums:
-            cur = x_set[:, 3:3+x]
+            cur = x_set[:, :3 + x]
             print("Running on top " + str(x) + " words")
             val_error, train_error = self.run_model(cur, y_set)
             val_error_list.append(val_error)
             train_error_list.append(train_error)
+
         fig, ax = plt.subplots()
         plt.scatter(word_nums, val_error_list, color='blue', s=5, label="Validation set")
-        plt.scatter(word_nums, train_error_list, color='red',s=5, label="Training set")
+        plt.scatter(word_nums, train_error_list, color='red', s=5, label="Training set")
         plt.title("MSE vs number of words used")
         ax.set_xlabel("Words Used")
         ax.set_ylabel("MSE")
-        plt.legend(loc = 'upper right')
+        plt.legend(loc='upper right')
         plt.show()
 
 
 if __name__ == "__main__":
-    #Main().closed_form_model_full_160()
-    # Main().closed_form_top_60()
+    # Main().closed_form_model_full_160()
     main = Main()
-    main.closed_form_model_variable(0)
-    # main = Main()
-    # main.display_training_and_validation_error()
+    main.display_training_and_validation_error()

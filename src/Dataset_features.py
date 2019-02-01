@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
-from Evaluator import Evaluator
 from preprocess import Preprocess
-from LinearRegressor import LinearRegressor
 import numpy as np
 import json
 
